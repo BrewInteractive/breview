@@ -1,0 +1,20 @@
+{
+    "name": "breview",
+    "version": "0.1.0",
+    "authors": [
+        "Gökçen Öğütçü <gokcen@brewww.com>"
+    ],
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "bootstrap": "~3.2.0",
+        "flat-ui": "2.2.0",
+        "swfobject": "2.2"
+    }
+}

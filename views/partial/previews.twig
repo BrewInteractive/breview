@@ -1,0 +1,19 @@
+{% macro flash(asset) %}
+<div id="flash-content">
+	<p>Please wait, while we open your file.</p>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	swfobject.embedSWF(
+		"{{ asset.path }}",
+		"flash-content",
+		"{{ asset.width }}",
+		"{{ asset.height }}",
+		"9.0.0"
+	);
+});
+</script>
+{% endmacro %}
+{% macro image(asset) %}
+<img src="{{ asset.path }}" alt="Preview"/>
+{% endmacro %}

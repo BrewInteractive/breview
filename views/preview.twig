@@ -1,0 +1,21 @@
+{% import 'partial/previews.twig' as preview %}
+{% extends 'layout/default.twig' %}
+{% block content %}
+<div class="center-block col-md-14">
+	{% if item.getAttribute('type') == 'flash' %}
+		{% for a in item.assets %}
+			<div class="col-md-4">
+				<h6>{{ item.title }}</h6>
+				{{ preview.flash(a) }}
+			</div>
+		{% endfor %}
+	{% elseif item.getAttribute('type') == 'image' %}
+		{% for a in item.assets %}
+			<div class="col-md-4">
+				<h6>{{ item.title }}</h6>
+				{{ preview.image(a) }}
+			</div>
+		{% endfor %}
+	{% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{
+    "require": {
+        "silex/silex": "~1.2",
+        "j4mie/idiorm": ">=1.4",
+		"twig/twig": ">=1.8,<2.0-dev",
+        "symfony/twig-bridge": "~2.3",
+ 		"guzzlehttp/guzzle": "~4.0",
+ 		"zendframework/zend-cache": "~2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Breview\\": "src/Breview"
+        }
+    }
+}
