@@ -1,0 +1,37 @@
+{
+	"projectName": "Boxtrolls Medya planı",
+	"version": "1.0.0",
+	"updatedOn": "12/10/2014 12:00:00",
+	"attributes": ["type", "width", "height"],
+	"items": [
+		{
+			"title": "160x600 Flash Banner",
+			"assets": [
+				{
+					"path": "http://px.brewww.com/boxtrolls/160x600-flash-banner/160x600-flash-banner.swf"
+				}
+			],
+			"attributes": {
+				"type": "flash",
+				"width": 160,
+				"height": 600
+			}
+		},
+		{
+			"title": "Facebook Cover",
+			"assets": [
+				"http://px.brewww.com/boxtrolls/facebook/facebook.jpg"
+			],
+			"attributes": {
+				"type": "image"
+			}
+		}
+	],
+	"attachments": [
+		{
+			"title": "Sample media plan",
+			"type": "application/xls",
+			"path": "path/to/sample.xls"
+		}
+	]
+}
