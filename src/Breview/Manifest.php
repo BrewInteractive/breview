@@ -4,7 +4,7 @@ class Manifest {
 	private $adapter;
 	public function __construct($params = array()) {
 		if(array_key_exists('url', $params)) {
-			$this->adapter = new Manifest\Adapter\Remote($params['url']);
+			$this->adapter = new Manifest\Adapter\Remote(rtrim($params['url'], '/') . '/breview.json');
 		}
 		else {
 			throw new Exception('No adapter found.');

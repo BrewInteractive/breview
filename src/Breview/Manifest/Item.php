@@ -14,7 +14,10 @@ class Item {
 					$assets[] = new Item\Asset($asset);
 				}
 				elseif(gettype($asset) == 'string') {
-					$assets[] = new Item\Asset(array('path' => $asset));
+					$assets[] = new Item\Asset(array_merge(
+						$this->data['attributes'], 
+						array('path' => $asset)
+					));
 				}
 				else {
 					throw new \Exception('Path or an object containing a path to an asset must be provided.');

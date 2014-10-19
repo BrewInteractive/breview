@@ -13,7 +13,7 @@
 		<tbody>
 			{% for i in manifest.items %}
 			<tr>
-				<td><a href="{{ url('preview', {'id': i.title|hash }) }}">{{ i.title }}</a></td>
+				<td><a href="{{ url('preview', {'manifest': 1234, 'item': i.title|hash }) }}">{{ i.title }}</a></td>
 				{% for a in manifest.attributes %}
 				<td>{{ i.getAttribute(a)|title|default('-') }}</td>
 				{% endfor %}
