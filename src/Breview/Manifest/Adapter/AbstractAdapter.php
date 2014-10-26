@@ -1,7 +1,8 @@
 <?php 
-namespace Breview\Manifest;
-class Adapter {
-	public $url, $data;
+namespace Breview\Manifest\Adapter;
+abstract class AbstractAdapter {
+	public $url;
+    public $manifestFilename = 'breview.json';
 	protected function getCache() {
 		/*
 		$cache = \Zend\Cache\StorageFactory::factory(array(

@@ -13,25 +13,34 @@ $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider(), $config['twig']);
 $app['debug'] = $config['debug'];
 $app['controllers']
+	->value('manifest', null)
+	->value('item', null)
 	->assert('manifest', '^\w{4,4}')
 	->assert('item', '^\w{8,8}')
 	->convert('manifest', function($manifest) use($app) {
-		$manifestRow = ORM::forTable('manifest')
-			->select('rootUrl')
-			->where('urlKey', $manifest)
-			->findOne();
-		if($manifestRow) {
-			$app['twig']->addGlobal('manifestID', $manifest);
-			return new Breview\Manifest(array('url' => $manifestRow->rootUrl));
+		if($manifest !== null) {
+			$manifestRow = ORM::forTable('manifest')
+				->select('rootUrl')
+				->where('urlKey', $manifest)
+				->findOne();
+			if($manifestRow) {
+				$app['twig']->addGlobal('manifestID', $manifest);
+				return new Breview\Manifest(array('url' => $manifestRow->rootUrl));
+			}
+			throw new \Exception('Requested resource not found.');
 		}
-		throw new \Exception('Requested resource not found.');
 	});
 
 $app['twig']->addFilter(new Twig_SimpleFilter('hash', function ($string) {
 	return hash('crc32b', $string);
 }));
-
-$app->get('/', function($manifest) use($app) {
+$app['twig']->addFilter(new Twig_SimpleFilter('attributeTitle', function ($attribute) {
+	$targetAttributeClassName = 'Breview\Manifest\Item\Attribute\\' . ucfirst($attribute);
+	if(class_exists($targetAttributeClassName)) {
+		return $targetAttributeClassName::$title;
+	}
+}));
+$app->get('/', function() use($app) {
 	return $app['twig']->render('index.twig');
 })->bind('home');
 
