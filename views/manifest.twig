@@ -1,21 +1,21 @@
 {% extends 'layout/default.twig' %}
 {% block content %}
-<div class="center-block col-md-14">
+<div>
 	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th class="col-md-6">Title</th>
 				{% for a in manifest.attributes %}
-				<th class="col-md-1">{{ a|title }}</th>
+				<th class="col-md-1">{{ a|attributeTitle|default('-') }}</th>
 				{% endfor %}
 			</tr>
 		</thead>
 		<tbody>
 			{% for i in manifest.items %}
 			<tr>
-				<td><a href="{{ url('preview', {'manifest': 1234, 'item': i.title|hash }) }}">{{ i.title }}</a></td>
+				<td><a href="{{ url('preview', {'manifest': manifestID, 'item': i.title|hash }) }}">{{ i.title }}</a> <span class="badge">{{ i.assets|length }}</span></td>
 				{% for a in manifest.attributes %}
-				<td>{{ i.getAttribute(a)|title|default('-') }}</td>
+				<td>{{ i.getAttribute(a)|default('-') }}</td>
 				{% endfor %}
 	  		</tr>
 	  		{% endfor %}
