@@ -1,27 +1,21 @@
-{% import 'partial/embeds.twig' as embeds %}
+{% import 'partial/previews.twig' as preview %}
 {% extends 'layout/default.twig' %}
 {% block content %}
-<div>
-	{% if item.assets|length > 1 %}
-	<p class="text-muted">
-		<i class="glyphicon glyphicon-fire"></i>
-		This set contains more than one file. Use controls below image to navigate.
-	</p>
-	{% endif %}
-	{% for a in item.assets %}
-	<div class="row">
-		<div class="col-md-12">
-			<h6>{{ item.title }}</h6>
-			{{ attribute(embeds, item.getAttribute('type'), [a]) }}
-		</div>
-	</div>
-	{% if not loop.last %}<hr/>{% endif %}
-	{% endfor %}
-	{% if item.assets|length > 1 %}
-	<ul class="pager text-right">
-  		<li><a href="#">Previous</a></li>
-  		<li><a href="#">Next</a></li>
-	</ul>
+<div class="center-block col-md-14">
+	{% if item.getAttribute('type') == 'flash' %}
+		{% for a in item.assets %}
+			<div class="col-md-4">
+				<h6>{{ item.title }}</h6>
+				{{ preview.flash(a) }}
+			</div>
+		{% endfor %}
+	{% elseif item.getAttribute('type') == 'image' %}
+		{% for a in item.assets %}
+			<div class="col-md-4">
+				<h6>{{ item.title }}</h6>
+				{{ preview.image(a) }}
+			</div>
+		{% endfor %}
 	{% endif %}
 </div>
 {% endblock %}

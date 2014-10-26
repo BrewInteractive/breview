@@ -1,11 +1,10 @@
 <?php 
 namespace Breview;
 class Manifest {
-	protected $adapter, $data;
+	private $adapter;
 	public function __construct($params = array()) {
 		if(array_key_exists('url', $params)) {
-			$this->adapter = new Manifest\Adapter\Remote($params['url']);
-			$this->data = $this->adapter->getManifest();
+			$this->adapter = new Manifest\Adapter\Remote(rtrim($params['url'], '/') . '/breview.json');
 		}
 		else {
 			throw new Exception('No adapter found.');
@@ -14,15 +13,15 @@ class Manifest {
 	public function __get($param) {
 		if($param == 'items') {
 			$items = array();
-			foreach($this->data['items'] as $item) {
+			foreach($this->adapter->data['items'] as $item) {
 				$items[] = new Manifest\Item($item);
 			}
 			return $items;
 		}
-		return $this->data[$param];
+		return $this->adapter->data[$param];
 	}
 	public function __isset($param) {
-		if(array_key_exists($param, $this->data)) {
+		if(array_key_exists($param, $this->adapter->data)) {
 			return true;
 		}
 		return false;
