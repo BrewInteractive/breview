@@ -8,7 +8,11 @@ class Remote extends AbstractAdapter {
 		$client = new \GuzzleHttp\Client();
 		return $client->get($this->url . '/' . $this->manifestFilename)->json();
 	}
-	public function getFile() {}
-	public function saveLocal() {}
-	public function checkExists() {}
+	public function get() {}
+	public function save() {}
+	public function check() {}
+    public static function isFullUrl($url) {
+        $urlParts = parse_url($url);
+        return isset($urlParts['scheme']) ? true : false;
+    }
 }

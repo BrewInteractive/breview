@@ -1,7 +1,7 @@
 <?php 
 namespace Breview\Manifest\Adapter;
 abstract class AbstractAdapter {
-	public $url;
+	public $url, $data;
     public $manifestFilename = 'breview.json';
 	protected function getCache() {
 		/*
