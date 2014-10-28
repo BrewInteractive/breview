@@ -2,6 +2,8 @@
 require_once __DIR__ . '/vendor/autoload.php';
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Aptoma\Twig\Extension\MarkdownExtension;
+use Aptoma\Twig\Extension\MarkdownEngine;
 
 $config = array_merge_recursive(
 	include __DIR__ . '/config/local.php',
@@ -11,6 +13,11 @@ ORM::configure($config['db']);
 $app = new Silex\Application();
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider(), $config['twig']);
+$app['twig']->addExtension(
+	new MarkdownExtension(
+		new MarkdownEngine\MichelfMarkdownEngine()
+	)
+);
 $app['debug'] = $config['debug'];
 $app['controllers']
 	->value('manifest', null)
@@ -30,7 +37,6 @@ $app['controllers']
 			throw new \Exception('Requested resource not found.');
 		}
 	});
-
 $app['twig']->addFilter(new Twig_SimpleFilter('hash', function ($string) {
 	return hash('crc32b', $string);
 }));
@@ -41,15 +47,15 @@ $app['twig']->addFilter(new Twig_SimpleFilter('attributeTitle', function ($attri
 	}
 }));
 $app->get('/', function() use($app) {
-	return $app['twig']->render('index.twig');
+	return $app['twig']->render('index.twig', array(
+		'readme' => file_get_contents(__DIR__ . '/README.md')
+	));
 })->bind('home');
-
 $app->get('/{manifest}', function($manifest) use($app) {
 	return $app['twig']->render('manifest.twig', array(
 		'manifest' => $manifest,
 	));
 })->bind('manifest');
-
 $app->get('/{manifest}/{item}', function($manifest, $item) use($app) {
 	$item = $manifest->findItemBy('title', $item, array('hash_algorithm' => 'crc32b'));
 	return $app['twig']->render('preview.twig', array(
@@ -57,5 +63,4 @@ $app->get('/{manifest}/{item}', function($manifest, $item) use($app) {
 		'item' => $item,
 	));
 })->bind('preview');
-
 $app->run();

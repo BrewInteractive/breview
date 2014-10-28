@@ -1,2 +1,6 @@
 {% extends 'layout/default.twig' %}
-{% block content %}{% endblock %}
+{% block content %}
+<div>
+	{{ readme|markdown }}
+</div>
+{% endblock %}
