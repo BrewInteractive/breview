@@ -27,7 +27,7 @@ class Manifest {
 		}
 		return false;
 	}
-	public function findItemBy(String $keyword, String $value, Array $params) {
+	public function findItemBy($keyword, $value, $params = array()) {
 		$hash_algorithm = array_key_exists('hash_algorithm', $params) ? $params['hash_algorithm'] : null;
 		if($this->items !== null) {
 			foreach($this->items as $item) {
