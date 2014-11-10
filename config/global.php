@@ -12,4 +12,18 @@ $config['db'] = array(
 	'id_column' => 'ID',
 	'caching' => false,
 );
+$config['cache'] = array(
+	'adapter' => array(
+		'name' => 'filesystem'
+	),
+	'options' => array(
+		'cache_dir' =>  'cache/',
+		'ttl' => 600,
+	),
+	'plugins' => array(
+		'exception_handler' => array(
+			'throw_exceptions' => true
+		),
+	)
+);
 return $config;

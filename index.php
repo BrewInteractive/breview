@@ -24,7 +24,7 @@ $app['controllers']
 	->value('item', null)
 	->assert('manifest', '^\w{4,4}')
 	->assert('item', '^\w{8,8}')
-	->convert('manifest', function($manifest) use($app) {
+	->convert('manifest', function($manifest) use($app, $config) {
 		if($manifest !== null) {
 			$manifestRow = ORM::forTable('manifest')
 				->select('rootUrl')
@@ -32,7 +32,7 @@ $app['controllers']
 				->findOne();
 			if($manifestRow) {
 				$app['twig']->addGlobal('manifestID', $manifest);
-				return new Breview\Manifest(array('url' => $manifestRow->rootUrl));
+				return new Breview\Manifest(array('url' => $manifestRow->rootUrl, 'cache' => $config['cache']));
 			}
 			throw new \Exception('Requested resource not found.');
 		}

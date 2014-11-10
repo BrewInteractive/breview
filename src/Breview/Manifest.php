@@ -1,10 +1,11 @@
 <?php 
 namespace Breview;
 class Manifest {
-	protected $adapter, $data;
+	protected $adapter, $data, $cache;
 	public function __construct($params = array()) {
+		$this->cache = array_key_exists('cache', $params) ? $params['cache'] : null;
 		if(array_key_exists('url', $params)) {
-			$this->adapter = new Manifest\Adapter\Remote($params['url']);
+			$this->adapter = new Manifest\Adapter\Remote($params['url'], array('cache' => $params['cache']));
 			$this->data = $this->adapter->getManifest();
 		}
 		else {
