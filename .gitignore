@@ -2,3 +2,4 @@ vendor/
 bower_components/
 config/local.php
 composer.lock
+*.log
