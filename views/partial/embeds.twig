@@ -19,3 +19,7 @@ $(document).ready(function() {
 {% macro image(asset) %}
 <img src="{{ asset.path }}" alt="Preview"/>
 {% endmacro %}
+
+{% macro iframe(asset) %}
+<iframe src="{{ asset.path }}" width="{{ asset.width.getValue }}" height="{{ asset.height.getValue }}"/>
+{% endmacro %}
