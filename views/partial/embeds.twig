@@ -21,5 +21,5 @@ $(document).ready(function() {
 {% endmacro %}
 
 {% macro iframe(asset) %}
-<iframe src="{{ asset.path }}" width="{{ asset.width.getValue }}" height="{{ asset.height.getValue }}"/>
+<iframe src="{{ asset.path }}" width="{{ asset.width.getValue }}" height="{{ asset.height.getValue }}" frameborder="0" border="0" style="border:0"/>
 {% endmacro %}
