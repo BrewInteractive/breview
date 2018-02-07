@@ -26,4 +26,5 @@ $config['cache'] = array(
 		),
 	)
 );
+$config['localArchive'] = array();
 return $config;

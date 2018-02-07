@@ -5,5 +5,9 @@ $config['db'] = array(
 	'password' => 'bar',
 );
 $config['debug'] = true;
+$config['localArchive'] = array(
+	'basePath' => 'resources/',
+	'baseUrl' => 'http://localhost/breview/resources/',
+);
 $config['twig'] = array();
 return $config;

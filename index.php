@@ -4,6 +4,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Aptoma\Twig\Extension\MarkdownExtension;
 use Aptoma\Twig\Extension\MarkdownEngine;
+use Respect\Validation\Validator as v;
 
 $config = array_merge_recursive(
 	include __DIR__ . '/config/local.php',
@@ -25,16 +26,26 @@ $app['controllers']
 	->assert('manifest', '^\w{4,4}')
 	->assert('item', '^\w{8,8}')
 	->convert('manifest', function($manifest) use($app, $config) {
-		if($manifest !== null) {
-			$manifestRow = ORM::forTable('manifest')
-				->select('rootUrl')
-				->where('urlKey', $manifest)
-				->findOne();
-			if($manifestRow) {
-				$app['twig']->addGlobal('manifestID', $manifest);
-				return new Breview\Manifest(array('url' => $manifestRow->rootUrl, 'cache' => $config['cache']));
+		if(v::alnum()->noWhitespace()->length(4, 4)->validate($manifest)) {
+			if($manifest !== null) {
+				$manifestRow = ORM::forTable('manifest')
+					->select('rootUrl')
+					->where('urlKey', $manifest)
+					->findOne();
+				if($manifestRow) {
+					$app['twig']->addGlobal('manifestID', $manifest);
+					return new Breview\Manifest(array('url' => $manifestRow->rootUrl, 'cache' => $config['cache']));
+				}
+				else{
+					$dir = __DIR__ . '/' . $config["localArchive"]["basePath"] . $manifest;
+					if(v::directory()->validate($dir))
+					{
+						$app['twig']->addGlobal('manifestID', $manifest);
+						return new Breview\Manifest(array('url' =>  $config["localArchive"]["baseUrl"] . $manifest, 'cache' => $config['cache']));
+					}
+				}
+				throw new \Exception('Requested resource not found.');
 			}
-			throw new \Exception('Requested resource not found.');
 		}
 	});
 $app['twig']->addFilter(new Twig_SimpleFilter('hash', function ($string) {
