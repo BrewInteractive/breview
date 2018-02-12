@@ -10,7 +10,9 @@ $config = array_merge_recursive(
 	include __DIR__ . '/config/local.php',
 	include __DIR__ . '/config/global.php'
 );
-ORM::configure($config['db']);
+if ($config["db"]["isEnabled"]) {
+	ORM::configure($config['db']);
+}
 $app = new Silex\Application();
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider(), $config['twig']);
@@ -28,15 +30,16 @@ $app['controllers']
 	->convert('manifest', function($manifest) use($app, $config) {
 		if(v::alnum()->noWhitespace()->length(4, 4)->validate($manifest)) {
 			if($manifest !== null) {
-				$manifestRow = ORM::forTable('manifest')
+				if ($config["db"]["isEnabled"]) {
+					$manifestRow = ORM::forTable('manifest')
 					->select('rootUrl')
 					->where('urlKey', $manifest)
 					->findOne();
-				if($manifestRow) {
+
 					$app['twig']->addGlobal('manifestID', $manifest);
 					return new Breview\Manifest(array('url' => $manifestRow->rootUrl, 'cache' => $config['cache']));
 				}
-				else{
+				else {
 					$dir = __DIR__ . '/' . $config["localArchive"]["basePath"] . $manifest;
 					if(v::directory()->validate($dir))
 					{

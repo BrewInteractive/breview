@@ -11,6 +11,7 @@ $config['db'] = array(
 	'driver_options' => array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'),
 	'id_column' => 'ID',
 	'caching' => false,
+	'isEnabled' => false,
 );
 $config['cache'] = array(
 	'adapter' => array(
@@ -27,4 +28,5 @@ $config['cache'] = array(
 	)
 );
 $config['localArchive'] = array();
+$config['isConnected'] = true;
 return $config;
